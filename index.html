@@ -186,7 +186,15 @@
     font-size: 0.95rem;
   }
   label:first-of-type{ margin-top: 0; }
-  input[type="text"], input[type="number"], textarea{
+  .guest-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .guest-row label{ margin: 0 0 6px; }
+
+  input[type="text"], input[type="number"], select, textarea{
     width:100%;
     font-family: 'Quicksand', sans-serif;
     font-weight: 600;
@@ -197,7 +205,7 @@
     background: #fffdfb;
     color: var(--ink);
   }
-  input:focus, textarea:focus{
+  input:focus, select:focus, textarea:focus{
     outline: 3px solid var(--coral);
     outline-offset: 1px;
     border-color: var(--coral);
@@ -335,9 +343,17 @@
       <label for="name">Your name</label>
       <input type="text" id="name" name="name" autocomplete="name" required>
 
-      <label for="guests">How many dinos in your group?</label>
-      <input type="number" id="guests" name="guests" min="1" max="20" value="1" inputmode="numeric">
-      <span class="hint">Include yourself and anyone joining you, kids too.</span>
+      <div class="guest-row">
+        <div class="guest-field">
+          <label for="adults">Adult Dinos</label>
+          <select id="adults" name="adults"></select>
+        </div>
+        <div class="guest-field">
+          <label for="kids">Little Hatchlings</label>
+          <select id="kids" name="kids"></select>
+        </div>
+      </div>
+      <span class="hint">Grown-ups and kids in your group, including yourself.</span>
 
       <label for="notes">Allergies or dietary notes</label>
       <textarea id="notes" name="notes" placeholder="e.g. peanut allergy, vegetarian, no dairy — or leave blank"></textarea>
@@ -362,7 +378,7 @@
 <script>
   // ====== CONFIGURATION ======
   // Paste your deployed Google Apps Script Web App URL here:
-  const API_URL = "https://script.google.com/macros/s/AKfycbxFYtRFQbWTfJZsuA0ZVXpb0L24uiTG-xBhNYs4jPq49kmItE7Xdj_nPaES35u_gd97dA/exec";
+  const API_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
   // ===========================
 
   const PARTY_DATE = new Date("2026-09-07T12:00:00");
@@ -399,6 +415,19 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  function populateSelect(id, max, defaultValue){
+    const select = document.getElementById(id);
+    for (let i = 0; i <= max; i++){
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i;
+      if (i === defaultValue) opt.selected = true;
+      select.appendChild(opt);
+    }
+  }
+  populateSelect('adults', 10, 1);
+  populateSelect('kids', 10, 0);
 
   async function loadCount(){
     const numberEl = document.getElementById('counter-number');
@@ -437,11 +466,18 @@
     msg.className = 'form-msg';
 
     const name = document.getElementById('name').value.trim();
-    const guests = document.getElementById('guests').value || '1';
+    const adults = parseInt(document.getElementById('adults').value, 10) || 0;
+    const kids = parseInt(document.getElementById('kids').value, 10) || 0;
     const notes = document.getElementById('notes').value.trim();
 
     if (!name){
       msg.textContent = 'Please enter your name so we know who to expect.';
+      msg.classList.add('error');
+      return;
+    }
+
+    if (adults + kids < 1){
+      msg.textContent = 'Please select at least one dino in your group.';
       msg.classList.add('error');
       return;
     }
@@ -459,7 +495,7 @@
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ name, guests, notes })
+        body: JSON.stringify({ name, adults, kids, notes })
       });
       const data = await res.json();
 
