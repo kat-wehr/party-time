@@ -155,6 +155,497 @@
   }
 
   /* Counter */
+  section.card.counter-card{
+    text-align:center;
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest-dark) 100%);
+    color: #fff6ee;
+  }
+  section.card.counter-card h2.display{ color: #fff6ee; }
+  .counter-number{
+    font-family: 'Bagel Fat One', cursive;
+    font-size: clamp(2.6rem, 14vw, 3.6rem);
+    line-height: 1;
+    display:block;
+    margin: 4px 0 6px;
+    transition: transform 0.3s ease;
+  }
+  .counter-number.pop{ transform: scale(1.12); }
+  .counter-sub{
+    font-weight: 600;
+    font-size: 0.95rem;
+    opacity: 0.92;
+  }
+  .counter-loading{ font-size: 0.85rem; opacity: 0.75; }
+
+  /* Form */
+  label{
+    display:block;
+    font-weight: 700;
+    color: var(--forest-dark);
+    margin: 16px 0 6px;
+    font-size: 0.95rem;
+  }
+  label:first-of-type{ margin-top: 0; }
+  .guest-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .guest-row label{ margin: 0 0 6px; }
+
+  input[type="text"], input[type="number"], select, textarea{
+    width:100%;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 2px solid rgba(31,107,87,0.18);
+    background: #fffdfb;
+    color: var(--ink);
+  }
+  input:focus, select:focus, textarea:focus{
+    outline: 3px solid var(--coral);
+    outline-offset: 1px;
+    border-color: var(--coral);
+  }
+  textarea{ min-height: 80px; resize: vertical; }
+  .hint{
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--forest-dark);
+    opacity: 0.65;
+    margin-top: 4px;
+  }
+
+  button.submit{
+    width:100%;
+    margin-top: 22px;
+    background: var(--coral);
+    color: #fff6ee;
+    border: none;
+    font-family: 'Bagel Fat One', cursive;
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+    padding: 15px;
+    border-radius: 18px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #c76c42;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  button.submit:hover{ filter: brightness(1.03); }
+  button.submit:active{
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #c76c42;
+  }
+  button.submit:disabled{
+    opacity: 0.6;
+    cursor: default;
+    box-shadow: 0 6px 0 #c76c42;
+    transform: none;
+  }
+  button.submit:focus-visible{
+    outline: 3px solid var(--forest);
+    outline-offset: 2px;
+  }
+
+  .form-msg{
+    margin-top: 14px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align:center;
+  }
+  .form-msg.error{ color: #b5433a; }
+  .form-msg.success{ color: var(--forest); }
+
+  .success-panel{
+    text-align:center;
+  }
+  .success-panel .display{
+    color: var(--forest);
+    font-size: 1.6rem;
+  }
+  .success-panel p{ font-weight: 600; }
+  .success-panel .again{
+    background:none;
+    border: none;
+    color: var(--teal-balloon);
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9rem;
+    padding: 0;
+    margin-top: 8px;
+  }
+
+  footer{
+    text-align:center;
+    font-size: 0.78rem;
+    color: var(--forest-dark);
+    opacity: 0.7;
+    font-weight: 600;
+    max-width: 480px;
+    margin-top: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; animation: none !important; }
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="hero">
+    <img
+      src="invite.png"
+      alt="Illustrated birthday invitation on a peach background: a smiling brown brontosaurus wearing a party hat, a blue pterodactyl with a flower behind its ear, and a green stegosaurus wearing a party hat with balloons tied to its tail. Text reads 'Splish-Splash Dino Bash! Join us to celebrate Otto turning one! Monday, September 7, Anytime Noon-5pm. What to expect: Pool/water play, allergen friendly lunch, Cake Smash around 2. Bring: no gifts, just suits and towels (and beverage of choice!)'"
+      class="invite-image"
+    >
+    <span class="eyebrow">Otto turns ONE!</span>
+    <h1 class="display">Splish-Splash<br>Dino Bash</h1>
+    <p>Monday, September 7 · Noon–5pm</p>
+  </div>
+
+  <div class="tracks" aria-hidden="true">
+    <svg viewBox="0 0 24 32"><path d="M12 2c3 0 5 3 5 7 0 3-1 5-1 8 0 5-1 9-4 9s-4-4-4-9c0-3-1-5-1-8 0-4 2-7 5-7z"/></svg>
+    <svg viewBox="0 0 24 32"><path d="M12 2c3 0 5 3 5 7 0 3-1 5-1 8 0 5-1 9-4 9s-4-4-4-9c0-3-1-5-1-8 0-4 2-7 5-7z"/></svg>
+    <svg viewBox="0 0 24 32"><path d="M12 2c3 0 5 3 5 7 0 3-1 5-1 8 0 5-1 9-4 9s-4-4-4-9c0-3-1-5-1-8 0-4 2-7 5-7z"/></svg>
+  </div>
+
+  <section class="card">
+    <h2 class="display">Countdown to Splashdown</h2>
+    <div class="countdown-grid" id="countdown">
+      <div class="egg"><span class="num" id="cd-days">--</span><span class="unit">Days</span></div>
+      <div class="egg"><span class="num" id="cd-hours">--</span><span class="unit">Hours</span></div>
+      <div class="egg"><span class="num" id="cd-mins">--</span><span class="unit">Mins</span></div>
+      <div class="egg"><span class="num" id="cd-secs">--</span><span class="unit">Secs</span></div>
+    </div>
+    <p class="countdown-note" id="countdown-note">until the herd hits the water 🦕</p>
+  </section>
+
+  <section class="card counter-card">
+    <h2 class="display">Dinos Confirmed</h2>
+    <span class="counter-number" id="counter-number">···</span>
+    <span class="counter-sub" id="counter-sub">Loading the guest count…</span>
+  </section>
+
+  <section class="card" id="rsvp-section">
+    <h2 class="display">RSVP</h2>
+    <form id="rsvp-form" novalidate>
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" autocomplete="name" required>
+
+      <div class="guest-row">
+        <div class="guest-field">
+          <label for="adults">Adult Dinos</label>
+          <select id="adults" name="adults"></select>
+        </div>
+        <div class="guest-field">
+          <label for="kids">Little Hatchlings</label>
+          <select id="kids" name="kids"></select>
+        </div>
+      </div>
+      <span class="hint">Grown-ups and kids in your group, including yourself.</span>
+
+      <label for="notes">Allergies or dietary notes</label>
+      <textarea id="notes" name="notes" placeholder="e.g. peanut allergy, vegetarian, no dairy — or leave blank"></textarea>
+
+      <button type="submit" class="submit" id="submit-btn">Stomp In My RSVP</button>
+      <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="success-panel" id="success-panel" style="display:none;">
+      <p class="display">You're on the list! 🦴</p>
+      <p id="success-detail">Thanks for RSVPing — see you at the bash!</p>
+      <button type="button" class="again" id="rsvp-again">RSVP another dino</button>
+    </div>
+  </section>
+
+  <footer>
+    Questions? Text or email Katrina — details are on your invite.
+  </footer>
+
+</main>
+
+<script>
+  // ====== CONFIGURATION ======
+  // Paste your deployed Google Apps Script Web App URL here:
+  const API_URL = "https://script.google.com/macros/s/AKfycbxV81h18iEg8AFcBGe87sq3nmeCE2XSeDYBDqP1woPxb146fV27C24LYPhITpYGnZEv/exec";
+  // ===========================
+
+  const PARTY_DATE = new Date("2026-09-07T12:00:00");
+
+  function updateCountdown(){
+    const now = new Date();
+    const diff = PARTY_DATE - now;
+    const els = {
+      days: document.getElementById('cd-days'),
+      hours: document.getElementById('cd-hours'),
+      mins: document.getElementById('cd-mins'),
+      secs: document.getElementById('cd-secs'),
+    };
+    const note = document.getElementById('countdown-note');
+
+    if (diff <= 0){
+      els.days.textContent = '0';
+      els.hours.textContent = '0';
+      els.mins.textContent = '0';
+      els.secs.textContent = '0';
+      note.textContent = "It's splashdown day! 🎉";
+      return;
+    }
+
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff / (1000*60*60)) % 24);
+    const m = Math.floor((diff / (1000*60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    els.days.textContent = d;
+    els.hours.textContent = h;
+    els.mins.textContent = m;
+    els.secs.textContent = s;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  function populateSelect(id, max, defaultValue){
+    const select = document.getElementById(id);
+    for (let i = 0; i <= max; i++){
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i;
+      if (i === defaultValue) opt.selected = true;
+      select.appendChild(opt);
+    }
+  }
+  populateSelect('adults', 10, 1);
+  populateSelect('kids', 10, 0);
+
+  async function loadCount(){
+    const numberEl = document.getElementById('counter-number');
+    const subEl = document.getElementById('counter-sub');
+    if (API_URL.includes('PASTE_YOUR')) {
+      numberEl.textContent = '0';
+      subEl.textContent = 'Connect the Google Sheet to start counting!';
+      return;
+    }
+    try{
+      const res = await fetch(API_URL, { method: 'GET' });
+      const data = await res.json();
+      const count = data.totalGuests ?? 0;
+      numberEl.textContent = count;
+      numberEl.classList.add('pop');
+      setTimeout(() => numberEl.classList.remove('pop'), 300);
+      subEl.textContent = count === 1
+        ? 'dinosaur is coming to splash!'
+        : 'dinosaurs are coming to splash!';
+    } catch (err){
+      numberEl.textContent = '—';
+      subEl.textContent = "Couldn't load the count right now.";
+    }
+  }
+  loadCount();
+
+  const form = document.getElementById('rsvp-form');
+  const msg = document.getElementById('form-msg');
+  const submitBtn = document.getElementById('submit-btn');
+  const successPanel = document.getElementById('success-panel');
+  const successDetail = document.getElementById('success-detail');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.textContent = '';
+    msg.className = 'form-msg';
+
+    const name = document.getElementById('name').value.trim();
+    const adults = parseInt(document.getElementById('adults').value, 10) || 0;
+    const kids = parseInt(document.getElementById('kids').value, 10) || 0;
+    const notes = document.getElementById('notes').value.trim();
+
+    if (!name){
+      msg.textContent = 'Please enter your name so we know who to expect.';
+      msg.classList.add('error');
+      return;
+    }
+
+    if (adults + kids < 1){
+      msg.textContent = 'Please select at least one dino in your group.';
+      msg.classList.add('error');
+      return;
+    }
+
+    if (API_URL.includes('PASTE_YOUR')){
+      msg.textContent = 'The RSVP list isn\u2019t connected yet — add the Apps Script URL in index.html.';
+      msg.classList.add('error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Stomping…';
+
+    try{
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ name, adults, kids, notes })
+      });
+      const data = await res.json();
+
+      if (data.success){
+        successDetail.textContent = `Thanks, ${name} — you and your crew are on the list!`;
+        form.style.display = 'none';
+        successPanel.style.display = 'block';
+        loadCount();
+      } else {
+        msg.textContent = data.error || 'Something went wrong. Please try again.';
+        msg.classList.add('error');
+      }
+    } catch(err){
+      msg.textContent = 'Something went wrong. Please try again in a moment.';
+      msg.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Stomp In My RSVP';
+    }
+  });
+
+  document.getElementById('rsvp-again').addEventListener('click', function(){
+    form.reset();
+    form.style.display = 'block';
+    successPanel.style.display = 'none';
+    msg.textContent = '';
+  });
+</script>
+</body>
+</html>    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 32px 16px 64px;
+  }
+
+  .display{
+    font-family: 'Bagel Fat One', cursive;
+    letter-spacing: 0.5px;
+  }
+
+  main{
+    width:100%;
+    max-width: 560px;
+  }
+
+  .hero{
+    text-align:center;
+    margin-bottom: 28px;
+  }
+
+  .invite-image{
+    width: 100%;
+    max-width: 420px;
+    border-radius: 22px;
+    box-shadow: 0 10px 24px var(--shadow);
+    margin: 0 auto 20px;
+    display: block;
+  }
+
+  .hero .eyebrow{
+    display:inline-block;
+    font-weight:700;
+    color: var(--coral);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  h1.display{
+    color: var(--forest);
+    font-size: clamp(2.1rem, 8vw, 3rem);
+    line-height: 1.15;
+    margin: 0 0 12px;
+  }
+
+  .hero p{
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin: 0;
+    color: var(--forest-dark);
+  }
+
+  /* footprint divider — signature element */
+  .tracks{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap: 18px;
+    margin: 26px 0;
+    opacity: 0.85;
+  }
+  .tracks svg{ width: 22px; height: 30px; }
+  .tracks svg:nth-child(odd){ transform: translateY(6px) rotate(-6deg); }
+  .tracks svg:nth-child(even){ transform: translateY(-2px) rotate(6deg); }
+  .tracks svg path{ fill: var(--olive); }
+
+  section.card{
+    background: var(--card-bg);
+    border-radius: 22px;
+    padding: 26px 24px;
+    box-shadow: 0 10px 24px var(--shadow);
+    margin-bottom: 22px;
+  }
+
+  .card h2.display{
+    color: var(--forest);
+    font-size: 1.4rem;
+    margin: 0 0 16px;
+    text-align:center;
+  }
+
+  /* Countdown */
+  .countdown-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .egg{
+    background: var(--peach-bg);
+    border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+    padding: 14px 4px 10px;
+    text-align:center;
+    border: 2px solid rgba(31,107,87,0.12);
+  }
+  .egg .num{
+    font-family:'Bagel Fat One', cursive;
+    font-size: clamp(1.3rem, 6vw, 1.7rem);
+    color: var(--forest);
+    display:block;
+    line-height: 1;
+  }
+  .egg .unit{
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--coral);
+    display:block;
+    margin-top: 4px;
+  }
+  .countdown-note{
+    text-align:center;
+    font-size: 0.85rem;
+    color: var(--forest-dark);
+    margin-top: 12px;
+    font-weight: 600;
+  }
+
+  /* Counter */
   .counter-card{
     text-align:center;
     background: linear-gradient(160deg, var(--forest) 0%, var(--forest-dark) 100%);
