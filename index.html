@@ -280,6 +280,40 @@
     margin-top: 8px;
   }
 
+  .calendar-buttons{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 18px 0 6px;
+  }
+  .calendar-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap: 6px;
+    width: 100%;
+    background: #fff;
+    color: var(--forest-dark);
+    border: 2px solid var(--forest);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 11px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .calendar-btn:hover{ background: var(--peach-bg); }
+  .calendar-btn:focus-visible{
+    outline: 3px solid var(--coral);
+    outline-offset: 2px;
+  }
+  .calendar-hint{
+    display:block;
+    margin-top: 0;
+  }
+
   footer{
     text-align:center;
     font-size: 0.78rem;
@@ -365,6 +399,13 @@
     <div class="success-panel" id="success-panel" style="display:none;">
       <p class="display">You're on the list! 🦴</p>
       <p id="success-detail">Thanks for RSVPing — see you at the bash!</p>
+
+      <div class="calendar-buttons">
+        <a class="calendar-btn" id="google-cal-link" href="#" target="_blank" rel="noopener">📅 Add to Google Calendar</a>
+        <button type="button" class="calendar-btn" id="ics-download-btn">⬇️ Download Calendar File</button>
+      </div>
+      <span class="hint calendar-hint">The download works with Apple Calendar, Outlook, and most other calendar apps.</span>
+
       <button type="button" class="again" id="rsvp-again">RSVP another dino</button>
     </div>
   </section>
@@ -382,6 +423,67 @@
   // ===========================
 
   const PARTY_DATE = new Date("2026-09-07T12:00:00");
+
+  // ====== EVENT DETAILS FOR CALENDAR LINKS ======
+  const EVENT = {
+    title: "Splish-Splash Dino Bash — Otto's 1st Birthday",
+    details: "Pool/water play, allergen-friendly lunch, and a cake smash around 2pm. Bring suits, towels, and your beverage of choice — no gifts needed!",
+    location: "679 Hopewell Road, Downingtown, PA 19335",
+    start: new Date("2026-09-07T12:00:00"),
+    end: new Date("2026-09-07T17:00:00"),
+  };
+
+  function pad(n){ return n.toString().padStart(2, '0'); }
+
+  // Format a Date as YYYYMMDDTHHMMSS (floating local time, no timezone conversion)
+  function formatFloatingTime(d){
+    return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+  }
+
+  function buildGoogleCalendarUrl(){
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: EVENT.title,
+      dates: `${formatFloatingTime(EVENT.start)}/${formatFloatingTime(EVENT.end)}`,
+      details: EVENT.details,
+      location: EVENT.location,
+      ctz: 'America/New_York'
+    });
+    return `https://www.google.com/calendar/render?${params.toString()}`;
+  }
+
+  function buildIcsFile(){
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Dino Bash RSVP//EN',
+      'BEGIN:VEVENT',
+      `UID:${Date.now()}@dino-bash-rsvp`,
+      `DTSTAMP:${formatFloatingTime(new Date())}Z`,
+      `DTSTART:${formatFloatingTime(EVENT.start)}`,
+      `DTEND:${formatFloatingTime(EVENT.end)}`,
+      `SUMMARY:${EVENT.title}`,
+      `DESCRIPTION:${EVENT.details}`,
+      `LOCATION:${EVENT.location}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    return new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  }
+
+  document.getElementById('google-cal-link').href = buildGoogleCalendarUrl();
+
+  document.getElementById('ics-download-btn').addEventListener('click', function(){
+    const blob = buildIcsFile();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dino-bash.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
 
   function updateCountdown(){
     const now = new Date();
